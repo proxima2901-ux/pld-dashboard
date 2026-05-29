@@ -3,7 +3,7 @@ services:
     name: pld-dashboard
     runtime: python
     plan: free
-    buildCommand: python -m py_compile server.py scrapers/*.py scripts/build_pld_catalog.py
+    buildCommand: pip install -r requirements.txt && python -m py_compile server.py scrapers/*.py scripts/build_pld_catalog.py
     startCommand: python server.py
     envVars:
       - key: HOST
