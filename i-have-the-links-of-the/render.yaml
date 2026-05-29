@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: pld-dashboard
+    runtime: python
+    plan: free
+    buildCommand: python -m py_compile server.py scrapers/*.py scripts/build_pld_catalog.py
+    startCommand: python server.py
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PYTHON_VERSION
+        value: 3.11.9

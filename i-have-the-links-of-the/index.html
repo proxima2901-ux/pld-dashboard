@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medicine Price Dashboard</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Tata 1MG vs Truemeds vs PharmEasy PLD</p>
+          <h1>Product PLD Dashboard</h1>
+        </div>
+        <div class="topbar-actions" aria-label="Data actions">
+          <button class="ghost-button" type="button" id="importButton">Import Catalog</button>
+          <button class="ghost-button" type="button" id="exportButton">Download CSV</button>
+          <button class="ghost-button danger" type="button" id="resetButton">Reset</button>
+          <input id="fileInput" type="file" accept=".csv,.json,application/json,text/csv" hidden>
+        </div>
+      </header>
+
+      <section class="control-panel" aria-label="Dashboard filters">
+        <div class="city-control">
+          <div class="control-heading">
+            <span>Cities</span>
+            <div>
+              <button class="mini-button" type="button" id="selectAllCities">All</button>
+              <button class="mini-button" type="button" id="clearCities">Clear</button>
+            </div>
+          </div>
+          <div class="city-list" id="cityList"></div>
+        </div>
+        <label class="wide-control">
+          <span>Product Search</span>
+          <input id="searchInput" type="search" placeholder="Search u_code or product name; type all">
+          <div class="suggestion-list" id="suggestionList" role="listbox" aria-label="Product suggestions"></div>
+        </label>
+        <fieldset class="platform-toggle" aria-label="Platforms">
+          <legend>Live Sources</legend>
+          <label><input type="checkbox" value="Tata 1MG" checked> Tata 1MG</label>
+          <label><input type="checkbox" value="Truemeds" checked> Truemeds</label>
+        </fieldset>
+        <div class="live-control">
+          <button class="primary-button" type="button" id="liveFetchButton">Fetch & Compare</button>
+          <button class="ghost-button" type="button" id="completeFetchButton">Complete Fetch</button>
+          <span id="liveStatus" data-state="idle">Ready</span>
+        </div>
+      </section>
+
+      <section class="simulation-panel" aria-label="Delta reduction simulation">
+        <div>
+          <span>Reduce Excess Delta</span>
+          <strong id="sliderValue">50%</strong>
+        </div>
+        <input id="deltaSlider" type="range" min="0" max="100" step="5" value="50">
+        <p id="simulationNote">Savings use current sales MRP from the uploaded burn sheet.</p>
+      </section>
+
+      <section class="product-panel" aria-label="Product selection">
+        <div class="panel-heading">
+          <div>
+            <h2>Select Products</h2>
+            <p id="selectedProductsNote">Search to add products</p>
+          </div>
+          <div class="product-actions">
+            <button class="ghost-button" type="button" id="selectAllProducts">Select All</button>
+            <button class="ghost-button" type="button" id="clearProducts">Clear</button>
+          </div>
+        </div>
+        <div class="product-list" id="productList"></div>
+      </section>
+
+      <section class="kpi-grid" aria-label="Summary metrics">
+        <article class="metric-card">
+          <span>Selected</span>
+          <strong id="kpiProducts">0</strong>
+          <small id="kpiProductsNote">products in scope</small>
+        </article>
+        <article class="metric-card">
+          <span>Best Avg PLD</span>
+          <strong id="kpiDiscount">0%</strong>
+          <small id="kpiDiscountNote">live source</small>
+        </article>
+        <article class="metric-card">
+          <span>Avg Delta vs PE</span>
+          <strong id="kpiSaving">0 pp</strong>
+          <small id="kpiSavingNote">weighted by sales MRP</small>
+        </article>
+        <article class="metric-card">
+          <span>Projected Saving</span>
+          <strong id="kpiFreshness">-</strong>
+          <small id="kpiFreshnessNote">slider scenario</small>
+        </article>
+      </section>
+
+      <section class="analysis-grid" aria-label="Platform analysis">
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>AI Insight</h2>
+            <span id="discountScope">Selected location</span>
+          </div>
+          <div class="insight-box" id="discountBars"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>PLD Delta</h2>
+            <span id="winnerScope">vs PharmEasy</span>
+          </div>
+          <div class="winner-list" id="winnerList"></div>
+        </article>
+      </section>
+
+      <section class="table-section" aria-label="Product prices">
+        <div class="table-toolbar">
+          <div>
+            <h2>Product Comparison</h2>
+            <p id="resultCount">0 rows</p>
+          </div>
+          <div class="legend">
+            <span><i class="dot in-stock"></i> In stock</span>
+            <span><i class="dot limited"></i> Limited</span>
+            <span><i class="dot out-stock"></i> Out</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr id="priceHead"></tr>
+            </thead>
+            <tbody id="priceTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="./data/prices.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
